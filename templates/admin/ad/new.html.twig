@@ -1,0 +1,29 @@
+{% extends 'dash.html.twig' %}
+
+{% block title %}Nouvelle annonce{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Ajouter annonce</a>
+            </li>
+            <li class="breadcrumb-item active"></li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-plus"></i>
+                Création d'une nouvelle annonce
+            </div>
+            <div class="card-body">
+                {{ include('ad/_form.html.twig') }}
+            </div>
+        </div>
+        <a class="btn btn-link" href="{{ path('ad_index') }}">
+            <i class="fas fa-arrow-circle-left"></i>
+            Retour à la liste
+        </a>
+    </div>
+{% endblock %}

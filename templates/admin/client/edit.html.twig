@@ -1,0 +1,30 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modifier info client {{ client.nom }}{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Gestion des clients</a>
+            </li>
+            <li class="breadcrumb-item active">Modifier info client</li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-edit"></i>
+                Modifier info client : {{ client.nom }}
+            </div>
+            <div class="card-body">
+                {{ include('client/_form.html.twig', {'button_label': 'Modifier'}) }}
+            </div>
+        </div>
+        <a class="btn btn-link" href="{{ path('client_index') }}">
+            <i class="fas fa-arrow-circle-left"></i>
+            Retour à la liste
+        </a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">{{ form_row(form.nom) }}</div>
+                <div class="col-md-6">{{ form_row(form.prenom) }}</div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">{{ form_row(form.dateNaiss) }}</div>
+                <div class="col-md-6">{{ form_row(form.lieuNaiss) }}</div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">{{ form_row(form.numCin) }}</div>
+                <div class="col-md-6">{{ form_row(form.numPermis) }}</div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">{{ form_row(form.contact) }}</div>
+                <div class="col-md-6">{{ form_row(form.adresse) }}</div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-success "><i class="fa fa-check"></i> {{ button_label|default('Enregistrez') }}</button>
+{{ form_end(form) }}

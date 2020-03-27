@@ -1,0 +1,72 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des voitures{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Liste des voitures</a>
+            </li>
+            <li class="breadcrumb-item active"></li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Ajouter une voiture
+                <a class="btn btn-info btn-sm" href="{{ path('voiture_new') }}">
+                    <i class="fa fa-plus"></i> Ajouter
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Matricule</th>
+                            <th>Date de circulation</th>
+                            <th>Marque</th>
+                            <th>Modèle</th>
+                            <th>Compteur</th>
+                            <th>Couleur</th>
+                            <th>Disponible</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for voiture in voitures %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ voiture.matricule }}</td>
+                                <td>{{ voiture.dateDrive ? voiture.dateDrive|date('Y-m-d') : '' }}</td>
+                                <td>{{ voiture.marque }}</td>
+                                <td>{{ voiture.modele }}</td>
+                                <td>{{ voiture.compteur }}</td>
+                                <td>{{ voiture.couleur }}</td>
+                                <td>{{ voiture.isDispo ? 'Oui' : 'Non' }}</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" href="{{ path('voiture_show', {'id': voiture.id}) }}">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a class="btn btn-warning btn-sm" href="{{ path('voiture_edit', {'id': voiture.id}) }}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    {{ include('voiture/_delete_form.html.twig') }}
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="9">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+    </div>
+{% endblock %}

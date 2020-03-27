@@ -1,0 +1,147 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Voiture {{ voiture.marque }} {{ voiture.modele }}{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Voiture {{ voiture.marque }} {{ voiture.modele }}</a>
+            </li>
+            <li class="breadcrumb-item active"></li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-eye"></i>
+                Information sur la voiture {{ include('voiture/_delete_form.html.twig') }}
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img src="/img/voiture/{{ voiture.image }}" width="100%" height="400" alt="Avatar.png">
+                    </div>
+                    <div class="col-sm-8">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th>Numéros d'immatriculation</th>
+                                <td>{{ voiture.matricule }}</td>
+                            </tr>
+                            <tr>
+                                <th>Marque</th>
+                                <td>{{ voiture.marque }}</td>
+                            </tr>
+                            <tr>
+                                <th>Modèle</th>
+                                <td>{{ voiture.modele }}</td>
+                            </tr>
+                            <tr>
+                                <th>Couleur</th>
+                                <td>{{ voiture.couleur }}</td>
+                            </tr>
+                            <tr>
+                                <th>Compteur</th>
+                                <td>{{ voiture.compteur }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date de circulation</th>
+                                <td>{{ voiture.dateDrive ? voiture.dateDrive|date('Y-m-d') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Disponible</th>
+                                <td>{{ voiture.isDispo ? 'Oui' : 'Non' }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header">
+                Autre information sur la voiture
+                <span class="pull-right clickable panel-toggle panel-button-tab-left">
+                    <em class="fa fa-toggle-up"></em></span></div>
+            <div class="card-body">
+                {% for info in voiture.infosups %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <th>Date Vidange Départ</th>
+                                    <td>
+                                        {{ info.dateVidDep | date('d/m/Y') }}
+                                        à {{ info.dateVidDep | date('H:i') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Date Changement de Roue Départ</th>
+                                    <td>
+                                        {{ info.dateChanRouDep | date('d/m/Y') }}
+                                        à {{ info.dateChanRouDep | date('H:i') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Date Visite Technique Départ</th>
+                                    <td>
+                                        {{ info.dateVisTechDep | date('d/m/Y') }}
+                                        à {{ info.dateVisTechDep | date('H:i') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Date Assurance Départ</th>
+                                    <td>
+                                        {{ info.dateAssurDep | date('d/m/Y') }}
+                                        à {{ info.dateAssurDep | date('H:i') }}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <th>Date Vidange Fin</th>
+                                    <td>
+                                        {{ info.dateVidFin | date('d/m/Y') }}
+                                        à {{ info.dateVidFin | date('H:i') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Date Changement de Roue Fin</th>
+                                    <td>
+                                        {{ info.dateChanRouFin | date('d/m/Y') }}
+                                        à {{ info.dateChanRouFin | date('H:i') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Date Visite Technique Fin</th>
+                                    <td>
+                                        {{ info.dateVisTechFin | date('d/m/Y') }}
+                                        à {{ info.dateVisTechFin | date('H:i') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Date Assurance Fin</th>
+                                    <td>
+                                        {{ info.dateAssurFin | date('d/m/Y') }}
+                                        à {{ info.dateAssurFin | date('H:i') }}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <a class="btn btn-link" href="{{ path('voiture_index') }}">
+            <i class="fas fa-arrow-circle-left"></i>
+            Retour à la liste
+        </a>
+    </div>
+{% endblock %}

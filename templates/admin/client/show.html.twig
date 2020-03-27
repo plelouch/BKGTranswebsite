@@ -1,0 +1,71 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Client {{ client.fullName}}{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Gestion des clients</a>
+            </li>
+            <li class="breadcrumb-item active">Client {{ client.fullName }}</li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-eye"></i>
+                Information sur le client {{ include('client/_delete_form.html.twig') }}
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img src="{{ asset("img/man2.png") }}" width="100%" height="400" alt="Avatar.png">
+                    </div>
+                    <div class="col-sm-8">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th>Nom</th>
+                                <td>{{ client.nom }}</td>
+                            </tr>
+                            <tr>
+                                <th>Prenom</th>
+                                <td>{{ client.prenom }}</td>
+                            </tr>
+                            <tr>
+                                <th>Adresse</th>
+                                <td>{{ client.adresse }}</td>
+                            </tr>
+                            <tr>
+                                <th>Numéros de Cart d'identité</th>
+                                <td>{{ client.numCin }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date Naissance</th>
+                                <td>{{ client.dateNaiss ? client.dateNaiss|date('Y-m-d') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Lieu Naissance</th>
+                                <td>{{ client.lieuNaiss }}</td>
+                            </tr>
+                            <tr>
+                                <th>Numéros de téléphone</th>
+                                <td>{{ client.contact }}</td>
+                            </tr>
+                            <tr>
+                                <th>Numéros de Permis</th>
+                                <td>{{ client.numPermis }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="btn btn-link" href="{{ path('client_index') }}">
+            <i class="fas fa-arrow-circle-left"></i>
+            Retour à la liste
+        </a>
+    </div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Mofication info de la  voiture {{ voiture.marque }} {{ voiture.modele }}{% endblock %}
+
+{% form_theme form _self %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Gestion des Voiture</a>
+            </li>
+            <li class="breadcrumb-item active">Modifier info voiture</li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-edit"></i>
+                Mofication info de la  voiture {{ voiture.marque }} {{ voiture.modele }}
+            </div>
+            <div class="card-body">
+                {{ include('voiture/_form.html.twig', {'button_label': 'Modifier'}) }}
+            </div>
+        </div>
+        <a class="btn btn-link" href="{{ path('voiture_index') }}">
+            <i class="fas fa-arrow-circle-left"></i>
+            Retour à la liste
+        </a>
+    </div>
+{% endblock %}
+{% block _voiture_infosups_row %}
+    <p class="h3">Ajouter les autres information de la voiture</p>
+    {{ form_widget(form) }}
+{% endblock %}
+{% block _voiture_infosups_entry_row %}
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_row(form.dateVidDep) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.dateVidFin) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.dateChanRouDep) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.dateChanRouFin) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.dateAssurDep) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.dateAssurFin) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.dateVisTechDep) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.dateVisTechFin) }}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('assets/js/bootstrap-datepiker.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('#voiture_infosups_0_dateVidDep,#voiture_infosups_0_dateVidFin,#voiture_infosups_0_dateChanRouDep,#voiture_infosups_0_dateChanRouFin,#voiture_infosups_0_dateAssurDep,#voiture_infosups_0_dateAssurFin,#voiture_infosups_0_dateVisTechDep,#voiture_infosups_0_dateVisTechFin').datepicker({
+                format: 'dd/mm/yyyy',
+            });
+        });
+    </script>
+{% endblock %}

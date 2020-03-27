@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Profile de {{ user.client.fullName }} {% endblock %}
+
+{% block body %}
+    {% set client = user.client %}
+    <div class="page-title sp" style="background-image: url({{ asset('assets/img/page-title.jpg') }})">
+        <div class="container text-center">
+            <h2>Profile de {{ client.fullName }}</h2>
+        </div>
+    </div>
+    <div class="contact-area sp">
+        <div class="container">
+            <div class="row">
+                <div class="col col-sm-4">
+                    <img class="mr-3" src="{{ asset('/img/man1.png') }}" width="100%">
+                </div>
+                <div class="col col-sm-8">
+                    <div class="table-responsive mb-5">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td class="h3">Nom et Prénom</td>
+                                <td class="h5">{{ client.fullName }}</td>
+                            </tr>
+                            <tr>
+                                <td class="h3">Nom d'utilisateur</td>
+                                <td class="h5">{{ user.username }}</td>
+                            </tr>
+                            <tr>
+                                <td class="h3">Numéros de carte d'indentité</td>
+                                <td class="h5">{{ client.numCin }}</td>
+                            </tr>
+                            <tr>
+                                <td class="h3">Date de naissance</td>
+                                <td class="h5">{{ client.dateNaiss|date('d/M/Y') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="h3">Lieu de naissance</td>
+                                <td class="h5">{{ client.lieuNaiss }}</td>
+                            </tr>
+                            <tr>
+                                <td class="h3">Numéros de permit</td>
+                                <td class="h5">{{ client.numPermis }}</td>
+                            </tr>
+                            <tr>
+                                <td class="h3">Numéros de Téléphone</td>
+                                <td class="h5">{{ client.contact }}</td>
+                            </tr>
+                            <tr>
+                                <td class="h3">Adresse</td>
+                                <td class="h5">{{ client.adresse }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    {% if user is same as(app.user) %}
+                        <a class="button mr-2" href="{{ path('app_profile', {'id': user.client.id}) }}">Modifier mes information</a>
+                        <a class="button-2" href="{{ path('app_update_password') }}">Modifier mon mots de passe</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

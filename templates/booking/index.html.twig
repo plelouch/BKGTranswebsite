@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vos réservation passer et à venir {% endblock %}
+
+{% block body %}
+    <div class="page-title sp" style="background-image: url(assets/img/page-title.jpg)">
+        <div class="container text-center">
+            <h2>Mes réservations</h2>
+            <p>Retrouvez ci-déssous toutes vos réservations passées et à venir</p>
+        </div>
+    </div>
+    <div class="portfolio-area sp">
+        <div class="container">
+            {% for booking in app.user.bookings %}
+                {% set ad = booking.ad %}
+                {% set validite = booking.confirmation %}
+                <div class="row" style="margin-bottom: 1.5em;">
+                    <div class="col-sm-4">
+                        <img src="/img/voiture/{{ ad.voiture.image }}" alt="" class="img-fluid">
+                    </div>
+                    <div class="col-sm-8">
+                        <h4>{{ ad.title }}</h4>
+                        <p>
+                            Réservation <strong>n°{{ booking.id }}</strong><br>
+                            Du {{ booking.startDate | date('d/m/Y') }} au {{ booking.endDate| date('d/m/Y') }}
+                            ({{ booking.amount }} fcfa)
+                        </p>
+                        <p>
+                            {% if validite == 'Accepter' %}
+                                <h3>Accepter!</h3>
+                            {% elseif validite == 'Réfuser' %}
+                                <h3>Refuser!</h3>
+                            {% else %}
+                                <h3>En Attente...</h3>
+                            {% endif %}
+                        </p>
+                        <a href="{{ path('booking_show', {'id': booking.id}) }}" class="btn btn-info">Plus d'informations</a>
+                    </div>
+                </div>
+            {% else %}
+                <section id="aa-error">
+                    <div class="container">
+                        <row>
+                            <div class="col-md-12">
+                                <div class="aa-error-area">
+                                    <h2>Vide</h2>
+                                    <p><span class="fa fa-warning"></span>Vous n'avez effectuer aucune resevation </p>
+                                    <a href="{{ path('ad_index') }}">Retoure a la liste des voiture</a>
+                                </div>
+                            </div>
+                        </row>
+                    </div>
+                </section>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

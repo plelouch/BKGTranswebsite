@@ -1,0 +1,60 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Location{% endblock %}
+
+{% block body %}
+    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+        <div class="row">
+            <ol class="breadcrumb">
+                <li><a href="#">
+                        <em class="fa fa-home"></em>
+                    </a></li>
+                <li class="active">Louer voiture</li>
+            </ol>
+        </div><!--/.row-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Effectuer la location d'une voiture</h1>
+            </div>
+        </div><!--/.row-->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Location</div>
+                    <div class="panel-body">
+                        <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ location.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>DateLocation</th>
+                            <td>{{ location.dateLocation ? location.dateLocation|date('Y-m-d') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>DepartAt</th>
+                            <td>{{ location.departAt ? location.departAt|date('Y-m-d H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>ArriveAt</th>
+                            <td>{{ location.ArriveAt ? location.ArriveAt|date('Y-m-d H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td>{{ location.price }}</td>
+                        </tr>
+                        </tbody>
+
+                    </div>
+                </div>
+                <a href="{{ path('location_edit', {'id': location.id}) }}">edit</a>
+
+                {{ include('location/_delete_form.html.twig') }}
+            </div>
+            <a href="{{ path('location_index') }}">Retour à la liste</a>
+        </div><!--/.row-->
+    </div>
+
+{% endblock %}

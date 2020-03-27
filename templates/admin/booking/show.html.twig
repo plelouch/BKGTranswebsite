@@ -1,0 +1,83 @@
+{% extends 'dash.html.twig' %}
+
+{% block title %}Réservation n°{{ booking.id }}{% endblock %}
+
+{% block body %}
+    {% set ad = booking.ad %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Liste des réservations</a>
+            </li>
+            <li class="breadcrumb-item active">Réservation n°{{ booking.id }}</li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Tableau des réservations
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="alert alert-ligth">
+                            <h2>Détails</h2>
+                            <dl class="row">
+                                <dt class="col-md-4">Numéros</dt>
+                                <dd class="col-md-8">{{ booking.id }}</dd>
+                                <dt class="col-md-4">Date d'arrivée</dt>
+                                <dd class="col-md-8">{{ booking.startDate | date('d/m/Y') }}</dd>
+                                <dt class="col-md-4">Date de départ</dt>
+                                <dd class="col-md-8">{{ booking.endDate | date('d/m/Y') }}</dd>
+                                <dt class="col-md-4">Nombres de nuit</dt>
+                                <dd class="col-md-8">{{ booking.duration }}</dd>
+                                <dt class="col-md-4">Montant total</dt>
+                                <dd class="col-md-8">{{ booking.amount| number_format(2, ',', ' ') }} fcfa</dd>
+                                <dt class="col-md-4">Confirmation</dt>
+                                <dd class="col-md-8">{{ booking.confirmation }}</dd>
+                                <dt class="col-md-4">Commentaire</dt>
+                                <dd class="col-md-8">{{ booking.comment }}</dd>
+                            </dl>
+                            <hr>
+                            <h2 class="alert-heading">Votre hôte</h2>
+                            <div class="mb-3">
+                                <dl class="row">
+                                    <dt class="col-md-4">Nom societé</dt>
+                                    <dd class="col-md-8">BKG TRANS Sarl</dd>
+                                    <dt class="col-md-4">Contact</dt>
+                                    <dd class="col-md-8">
+                                        (00228) 90 38 99 14 <br>
+                                        (00228) 97 05 80 20 <br>
+                                        (00228) 22 54 81 90
+                                    </dd>
+                                    <dt class="col-md-4">Email</dt>
+                                    <dd class="col-md-8">bkgtrans2@gmail.com ou <br> mathiasguede007@gamil.com</dd>
+                                    <dt class="col-md-4">Adresse</dt>
+                                    <dd class="col-md-8">Quartier Adidogomé</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="alert alert-ligth">
+                            <h2 class="alert-heading">Votre Voiture</h2>
+                            <h4 class="my-3">
+                                <h4>{{ ad.title }}</h4>
+                            </h4>
+                            <img src="/img/voiture/{{ ad.voiture.image }}" alt="" class="img-fluid">
+                            <div class="my-3">
+                                {{ ad.description | raw }}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="btn btn-link" href="{{ path('booking_list') }}">
+            <i class="fas fa-arrow-circle-left"></i>
+            Retour à la liste
+        </a>
+    </div>
+{% endblock %}

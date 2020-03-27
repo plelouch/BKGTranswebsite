@@ -1,0 +1,32 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">{{ form_row(form.matricule) }}</div>
+                <div class="col-md-6">{{ form_row(form.marque) }}</div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">{{ form_row(form.modele) }}</div>
+                <div class="col-md-6">{{ form_row(form.couleur) }}</div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">{{ form_row(form.dateDrive) }}</div>
+                <div class="col-md-6">{{ form_row(form.compteur) }}</div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">{{ form_row(form.isDispo) }}</div>
+                <div class="col-md-6">{{ form_row(form.image) }}</div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            {{ form_row(form.infosups) }}
+        </div>
+    </div>
+    <button class="btn btn-success">{{ button_label|default('Enregistrez') }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification du profile utilisateur {% endblock %}
+
+{% block body %}
+    <div class="page-title sp" style="background-image: url({{ asset('assets/img/page-title.jpg') }})">
+        <div class="container text-center">
+            <h2>Modification du profile</h2>
+        </div>
+    </div>
+    <div class="contact-area sp">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="contact-form">
+                        {{ include('client/_form.html.twig', {'button_label': 'Enregistrez les modification'}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

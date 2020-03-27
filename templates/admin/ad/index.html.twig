@@ -1,0 +1,64 @@
+{% extends 'dash.html.twig' %}
+
+{% block title %}Liste des annonces{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Liste des annonces</a>
+            </li>
+            <li class="breadcrumb-item active"></li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Ajouter une annonce
+                <a class="btn btn-info btn-sm" href="{{ path('ad_new') }}">
+                    <i class="fa fa-plus"></i> Ajouter
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Titre</th>
+                            <th>Introduction</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for ad in ads %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ ad.title }}</td>
+                                <td>{{ ad.introduction }}</td>
+                                <td>{{ ad.price|number_format(2, ',', ' ') }} fcfa / jour</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" href="{{ path('ad_show', {'id': ad.id}) }}">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a class="btn btn-warning btn-sm" href="{{ path('ad_edit', {'id': ad.id}) }}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    {{ include('ad/_delete_form.html.twig') }}
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+    </div>
+{% endblock %}

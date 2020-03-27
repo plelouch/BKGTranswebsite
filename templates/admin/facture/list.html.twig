@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Les factures de {{ client.fullName }} {% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h1 class="mb-5 text-center">Les factures de {{ client.fullName }}</h1>
+        <div class="table-responsive mb-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>Numéros de facture</th>
+                        <th>Date de facture</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for facture in factures %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ facture.numFacture }}</td>
+                        <td>{{ facture.dateAt ? facture.dateAt|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" href="{{ path('facture_user_show', {'id' : facture.id}) }}">show</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

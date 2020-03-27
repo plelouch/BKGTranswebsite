@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos magifiques annonces{% endblock %}
+
+{% block body %}
+    <div class="page-title sp" style="background-image: url({{ asset('assets/img/page-title.jpg') }})">
+        <div class="container text-center">
+            <h2>Nos Voitures</h2>
+            <p>Malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae.</p>
+        </div>
+    </div>
+    <div class="portfolio-area sp">
+        <div class="container">
+            <div class="row">
+                {% for ad in ads %}
+                    {% set url = path('ad_show', { 'id': ad.id }) %}
+                    <div class="single-portfolio col-md-4">
+                    <div class="inner">
+                        <div class="portfolio-content">
+                            {% if ad.ratings|length > 0 %}
+                                {{ include('ad/_rating.html.twig' , {'rating': ad.avgRatings}) }}<br>
+                            {% else %}
+                                <small>Pas encore noté</small>
+                            {% endif %}
+                        </div>
+                        <div class="portfolio-img">
+                            <img height="200" src="/img/voiture/{{ ad.voiture.image }}" alt="portfolio-image">
+                            <div class="hover-content">
+                                <div>
+                                    <a href="{{ url }}" class="button">plus d'information</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-content">
+                            <a href="{{ url }}"><h3>{{ ad.title }}</h3></a>
+                            <span>{{ ad.introduction }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

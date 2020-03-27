@@ -1,0 +1,30 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Nouveau client{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Gestion des clients</a>
+            </li>
+            <li class="breadcrumb-item active">Ajouter client</li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-plus"></i>
+                Ajout d'un nouveau client
+            </div>
+            <div class="card-body">
+                {{ include('client/_form.html.twig') }}
+            </div>
+        </div>
+
+        <a class="btn btn-link" href="{{ path('client_index') }}">
+            <i class="fas fa-arrow-circle-left"></i>
+            Retour à la liste
+        </a>
+    </div>
+{% endblock %}

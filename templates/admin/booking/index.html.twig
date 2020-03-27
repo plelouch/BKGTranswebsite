@@ -1,0 +1,76 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des réservations{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Liste des réservations</a>
+            </li>
+            <li class="breadcrumb-item active"></li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Tableau des réservations
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Nom prénom client</th>
+                            <th>Marque voiture</th>
+                            <th>Modèle voiture</th>
+                            <th>Date arrive</th>
+                            <th>Date départ</th>
+                            <th>Date reservation</th>
+                            <th>Montant reservation</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for booking in bookings %}
+                            {% set voiture = booking.ad.voiture %}
+                            {% set booker = booking.booker.client %}
+                            {% set valide = booking.confirmation %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ booker.fullname }}</td>
+                                <td>{{ voiture.marque }}</td>
+                                <td>{{ voiture.modele }}</td>
+                                <td>{{ booking.startDate|date('Y-m-d')}}</td>
+                                <td>{{ booking.endDate|date('Y-m-d')}}</td>
+                                <td>{{ booking.createdAt|date('Y-m-d')}}</td>
+                                <td>{{ booking.amount }}</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" href="{{ path('admin_booking_show', {"id": booking.id}) }}">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    {% if valide == "En Attente..." %}
+                                        <a class="btn btn-success btn-sm" href="{{ path('booking_valide', {"id": booking.id}) }}">
+                                            <i class="fas fa-check"></i>
+                                        </a>
+                                        <a class="btn btn-danger btn-sm" href="{{ path('booking_notvalide', {"id": booking.id}) }}">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="9">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+    </div>
+{% endblock %}

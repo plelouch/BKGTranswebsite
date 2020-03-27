@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Propriété : {{ property.title }}{% endblock %}
+
+{% block body %}
+    <div class="page-title sp" style="background-image: url({{ asset('assets/img/page-title.jpg') }})">
+        <div class="container text-center">
+            <h2>Propriété : {{ property.title }}</h2>
+        </div>
+    </div>
+    <div class="about-area sp">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="about-content">
+                        <h3>Desciption de la propriété </h3>
+                        <p> {{ property.description | raw }}</p>
+                        <dl>
+                            <dt><strong>{{ property.price|number_format(2, ',', ' ') }} fcfa</strong></dt>
+                            <dt>Status de la Propriété : <strong> {{ property.sold ? 'Acheter' : 'Toujour disponible' }}</strong> </dt>
+                        </dl>
+
+                        {% if property.sold == false %}
+                            <a href="" class="button">Loué</a>
+                            <a href="" class="button-2">Acheter</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="about-img">
+                        <img src="{{ asset('assets/img/page-title.jpg') }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="skill-area spb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="skill-title">
+                        <h2>Information  supplémentaire sur la propriété</h2>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-sm-6 single-skill">
+                            <dl class="row">
+                                <dt class="col-sm-8">Surface</dt>
+                                <dd class="col-sm-4">{{ property.surface }} m²</dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6 single-skill">
+                            <dl class="row">
+                                <dt class="col-sm-8">Pièce(s)</dt>
+                                <dd class="col-sm-4">{{ property.rooms }}</dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6 single-skill">
+                            <dl class="row">
+                                <dt class="col-sm-8">Chambre(s)</dt>
+                                <dd class="col-sm-4">{{ property.bedrooms }}</dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6 single-skill">
+                            <dl class="row">
+                                <dt class="col-sm-8">Etage(s)</dt>
+                                <dd class="col-sm-4">{{ property.floor }}</dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-12 single-skill">
+                            <dl class="row">
+                                <dt class="col-sm-4">Ville</dt>
+                                <dd class="col-sm-8">{{ property.city }}</dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-12 single-skill">
+                            <dl class="row">
+                                <dt class="col-sm-4">Adresse</dt>
+                                <dd class="col-sm-8">{{ property.adresse }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>#}
+    <div class="spb">
+        <div class="brand-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-6 single-brand">
+                        <div class="inner">
+                            <a href="#">
+                                <img src="assets/img/brand1.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 single-brand">
+                        <div class="inner">
+                            <a href="#">
+                                <img src="assets/img/brand2.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 single-brand">
+                        <div class="inner">
+                            <a href="#">
+                                <img src="assets/img/brand3.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 single-brand">
+                        <div class="inner">
+                            <a href="#">
+                                <img src="assets/img/brand4.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

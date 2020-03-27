@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ ad.title }}{% endblock %}
+
+{% block body %}
+    <div class="page-title sp" style="text-shadow: 6px 6px 6px rgba(0,0,0,0.5);background-image: url('/img/voiture/{{ ad.voiture.image }}')">
+        <div class="container text-center">
+            <h2>{{ ad.title }}</h2>
+            <p>{{ ad.introduction }}</p>
+        </div>
+    </div>
+    <div class="about-area sp">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="about-content">
+                        <h3>Desciption de la voiture </h3>
+                        <p> {{ ad.description | raw }}</p>
+                        <dl>
+                            <dt><strong>{{ ad.price }} fcfa</strong> par jour</dt>
+                        </dl>
+                        {% if app.user %}
+                            {% set note = ad.ratingUser(app.user) %}
+
+                            {% if note is not null %}
+                                <dl class="row align-items-center" style="margin-top: 1.5em;">
+                                    <dt class="h4 col-sm-3">Votre note :</dt>
+                                    <dd class="col-sm-6 " style="color: goldenrod">{{ include('ad/_rating.html.twig' , {'rating': note.rating}) }}</dd>
+                                </dl>
+                            {% else %}
+                                {{ form_start(form) }}
+                                    {{ form_row(form.rating) }}
+                                    <button class="button-2">Noté!</button>
+                                {{ form_end(form) }}
+                            {% endif %}
+                        {% else %}
+                            {{ include('ad/_rating.html.twig' , {'rating': ad.avgRatings}) }}<br>
+                        {% endif %}
+                        <a href="{{ path('booking_new', {'id': ad.id}) }}" class="button">Fair une Reservation</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="about-img">
+                        <img src="/img/voiture/{{ ad.voiture.image }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="skill-area spb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="skill-title">
+                        <h2>Information  supplémentaire sur la voiture</h2>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="row">
+                        {% for caract in ad.voiture.infosups %}
+                            <div class="col-sm-6 single-skill">
+                                <dl class="row">
+                                    <dt class="col-sm-8">Date de départ Vidange</dt>
+                                    <dd class="col-sm-4">{{ caract.dateVidDep|date('d/m/Y') }}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-6 single-skill">
+                                <dl class="row">
+                                    <dt class="col-sm-8">Date de fin vidange</dt>
+                                    <dd class="col-sm-4">{{ caract.dateVidFin|date('d/m/Y') }}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-6 single-skill">
+                                <dl class="row">
+                                    <dt class="col-sm-8">Date de départ changement roue</dt>
+                                    <dd class="col-sm-4">{{ caract.dateChanRouDep|date('d/m/Y') }}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-6 single-skill">
+                                <dl class="row">
+                                    <dt class="col-sm-8">Date de fin changement roue</dt>
+                                    <dd class="col-sm-4">{{ caract.dateChanRouFin|date('d/m/Y') }}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-6 single-skill">
+                                <dl class="row">
+                                    <dt class="col-sm-8">Date de départ Assurance</dt>
+                                    <dd class="col-sm-4">{{ caract.dateAssurDep|date('d/m/Y') }}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-6 single-skill">
+                                <dl class="row">
+                                    <dt class="col-sm-8">Date de fin Assurance</dt>
+                                    <dd class="col-sm-4">{{ caract.dateAssurFin|date('d/m/Y') }}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-6 single-skill">
+                                <dl class="row">
+                                    <dt class="col-sm-8">Date de départ visite technique</dt>
+                                    <dd class="col-sm-4">{{ caract.dateVisTechDep|date('d/m/Y') }}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-6 single-skill">
+                                <dl class="row">
+                                    <dt class="col-sm-8">Date de fin visite technique</dt>
+                                    <dd class="col-sm-4">{{ caract.dateVisTechFin|date('d/m/Y') }}</dd>
+                                </dl>
+                            </div>
+                        {% endfor  %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="spb">
+        <div class="brand-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-6 single-brand">
+                        <div class="inner">
+                            <a href="#">
+                                <img src="assets/img/brand1.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 single-brand">
+                        <div class="inner">
+                            <a href="#">
+                                <img src="assets/img/brand2.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 single-brand">
+                        <div class="inner">
+                            <a href="#">
+                                <img src="assets/img/brand3.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 single-brand">
+                        <div class="inner">
+                            <a href="#">
+                                <img src="assets/img/brand4.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

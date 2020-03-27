@@ -1,0 +1,26 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Edition de la Location{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Modification des formaliters de location</a>
+            </li>
+            <li class="breadcrumb-item active"></li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Modification des formaliters de location
+            </div>
+            <div class="card-body">
+                {{ include('location/_form.html.twig', {'button_label': 'Modifier'}) }}
+            </div>
+        </div>
+        <a href="{{ path('location_index') }}">Retour à la liste</a>
+    </div>
+{% endblock %}

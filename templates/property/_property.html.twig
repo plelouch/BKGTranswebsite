@@ -1,0 +1,24 @@
+{% set url = path('property_show', { 'id': property.id }) %}
+<div class="single-portfolio col-md-4">
+    <div class="inner">
+        <div class="portfolio-content">
+            <dl>
+                <dt>Status de la Propriété : <strong> {{ property.sold ? 'Acheter' : 'Toujour disponible' }}</strong> </dt>
+            </dl>
+            <small>Pas encore noté</small>
+        </div>
+        <div class="portfolio-img">
+            <img height="200" src="{{ asset('assets/img/page-title.jpg') }}" alt="portfolio-image">
+            <div class="hover-content">
+                <div>
+                    <a href="{{ url }}" class="button">plus d'information</a>
+                </div>
+            </div>
+        </div>
+        <div class="portfolio-content">
+            <a href="{{ url }}"><h3>{{ property.title }}</h3></a>
+            <span>Prix : {{ property.price|number_format(2, ',', ' ') }} Fcfa </span>
+            <span> Surface : {{ property.surface }} m²</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+<ul class="sidebar navbar-nav">
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ path('homeadmin') }}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Tableau de bord</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('client_index') }}">
+            <i class="fas fa-fw fa-users">&nbsp;</i>
+            <span>Gestion des clients</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('voiture_index') }}">
+            <i class="fas fa-fw fa-car">&nbsp;</i>
+            <span>Gestion des Voiture</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('ad_index') }}">
+            <i class="fas fa-fw fa-bullhorn">&nbsp;</i>
+            <span>Gestion des annonces</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('booking_list') }}">
+            <i class="fas fa-fw fa-folder">&nbsp;</i>
+            <span>Géré les réservations</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('location_index') }}">
+            <i class="fas fa-fw fa-book">&nbsp;</i>
+            <span>Gestion des locations</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('facture_index') }}">
+            <i class="fas fa-fw fa-bookmark">&nbsp;</i>
+            <span>Gestion des factures</span>
+        </a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Profile</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+            <h6 class="dropdown-header">Info :</h6>
+            <a class="dropdown-item" href="{{ path('admin_security_account') }}">Mon Profile</a>
+            <a class="dropdown-item" href="register.html">Modifier profile</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ logout_path() }}">
+            <i class="fas fa-fw fa-power-off"></i>
+            <span>Déconnection</span></a>
+    </li>
+</ul>

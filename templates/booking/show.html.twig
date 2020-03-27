@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservation n°{{ booking.id }} !{% endblock %}
+
+{% block body %}
+    {% set ad = booking.ad %}
+    <div class="page-title sp" style="background-image: url({{ asset('assets/img/page-title.jpg') }})">
+        <div class="container text-center">
+            <h2>Votre réservation (n°{{ booking.id }})</h2>
+        </div>
+    </div>
+    <div class="portfolio-area sp">
+        <div class="container">
+            <div id="aImprimer">
+                {% if app.request.query.get('withAlert') %}
+                    <div class="alert alert-success">
+                        <h4 class="alert-heading">Bravo !</h4>
+                        <p>
+                            Votre réservation auprès de
+                            <strong>
+                                <a href="#">LocateCar Company</a>
+                            </strong>
+                            pour l'annonce
+                            <strong>
+                                <a href="{{ path('ad_show', {'id': ad.id}) }}">{{ ad.title }}</a>
+                            </strong>
+                            a bien été prise en compte !
+                        </p>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="alert alert-ligth">
+                            <h2>Détails</h2>
+                            <dl class="row">
+                                <dt class="col-md-4">Numéros</dt>
+                                <dd class="col-md-8">{{ booking.id }}</dd>
+                                <dt class="col-md-4">Date d'arrivée</dt>
+                                <dd class="col-md-8">{{ booking.startDate | date('d/m/Y') }}</dd>
+                                <dt class="col-md-4">Date de départ</dt>
+                                <dd class="col-md-8">{{ booking.endDate | date('d/m/Y') }}</dd>
+                                <dt class="col-md-4">Nombres de nuit</dt>
+                                <dd class="col-md-8">{{ booking.duration }}</dd>
+                                <dt class="col-md-4">Montant total</dt>
+                                <dd class="col-md-8">{{ booking.amount }} &euro;</dd>
+                                <dt class="col-md-4">Commentaire</dt>
+                                <dd class="col-md-8">{{ booking.comment }}</dd>
+                            </dl>
+                            <hr>
+                            <h2 class="alert-heading">Votre hôte</h2>
+                            <div class="mb-3">
+                                <dl class="row">
+                                    <dt class="col-md-4">Nom societé</dt>
+                                    <dd class="col-md-8">BKG TRANS Sarl</dd>
+                                    <dt class="col-md-4">Contact</dt>
+                                    <dd class="col-md-8">
+                                        (00228) 90 38 99 14 <br>
+                                        (00228) 97 05 80 20 <br>
+                                        (00228) 22 54 81 90
+                                    </dd>
+                                    <dt class="col-md-4">Email</dt>
+                                    <dd class="col-md-8">bkgtrans2@gmail.com ou <br> mathiasguede007@gamil.com</dd>
+                                    <dt class="col-md-4">Adresse</dt>
+                                    <dd class="col-md-8">Quartier Adidogomé</dd>
+                                </dl>
+                            </div>
+                            <a href="" class="btn btn-primary">Plus d'info sur LocateCar Company</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="alert alert-ligth">
+                            <h2 class="alert-heading">Votre Voiture</h2>
+                            <h4 class="my-3">
+                                <a href="{{ path('ad_show', {'id': ad.id}) }}">{{ ad.title }}</a>
+                            </h4>
+                            <img src="/img/voiture/{{ ad.voiture.image }}" alt="" class="img-fluid">
+                            <div class="my-3">
+                                {{ ad.description | raw }}
+                            </div>
+
+                            <a href="{{ path('ad_show', {'id': ad.id}) }}" class="btn btn-primary">Plus d'information</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" onclick="imprimer('aImprimer')" class="btn btn-warning mb-5"><i class="la la-print"></i> Imprimez </a>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        function imprimer(divName){
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+    </script>
+{% endblock %}

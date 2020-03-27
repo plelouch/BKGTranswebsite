@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-sm-6">{{ form_row(form.title) }}</div>
+        <div class="col-sm-6">{{ form_row(form.introduction) }}</div>
+        <div class="col-sm-6">{{ form_row(form.price) }}</div>
+        <div class="col-sm-6">{{ form_row(form.voiture) }}</div>
+        <div class="col-sm-12">{{ form_row(form.description) }}</div>
+    </div>
+    <button class="btn btn-success">{{ button_label|default('Crée annonce') }}</button>
+{{ form_end(form) }}
