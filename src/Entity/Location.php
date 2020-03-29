@@ -46,7 +46,6 @@ class Location
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Voiture", inversedBy="locations")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $voiture;
 
@@ -59,6 +58,16 @@ class Location
      * @ORM\Column(type="boolean")
      */
     private $isReturn;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Property", inversedBy="locations")
+     */
+    private $property;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $avance;
 
     public function getId(): ?int
     {
@@ -165,4 +174,29 @@ class Location
 
         return $this;
     }
+
+    public function getProperty(): ?property
+    {
+        return $this->property;
+    }
+
+    public function setProperty(?property $property): self
+    {
+        $this->property = $property;
+
+        return $this;
+    }
+
+    public function getAvance(): ?int
+    {
+        return $this->avance;
+    }
+
+    public function setAvance(?int $avance): self
+    {
+        $this->avance = $avance;
+
+        return $this;
+    }
+
 }

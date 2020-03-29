@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields={"title"}, message="Ce titre existe déjà")
  */
 class Property
 {
@@ -71,6 +75,99 @@ class Property
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Rating", mappedBy="property")
+     */
+    private $ratings;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="property")
+     */
+    private $bookings;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Type", inversedBy="property")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Location", mappedBy="property")
+     */
+    private $locations;
+
+    public function __construct()
+    {
+        $this->ratings = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
+        $this->locations = new ArrayCollection();
+    }
+
+    /**
+     * @return \DateTime
+     * @throws \Exception
+     * @ORM\PrePersist()
+     */
+    public function createdFunction()
+    {
+        return $this->createdAt = new \DateTime();
+    }
+    /**
+     * @param User $user
+     * @return null
+     */
+    public function ratingUser(User $user)
+    {
+        foreach($this->ratings as $rating){
+            if($rating->getAuthor() === $user){
+                return $rating;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getAvgRatings()
+    {
+        // calcul de la somme des notation
+        $sum = array_reduce($this->ratings->toArray(), function($total, $note){
+            return $total + $note->getRating();
+        },0);
+
+        // moyenne des notation
+        if(count($this->ratings) > 0) return $sum / count($this->ratings);
+
+        return 0;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNotAvailableDays()
+    {
+        $notAvailableDays = [];
+        foreach ($this->bookings as $booking){
+            $resultat = range(
+                $booking->getStartDate()->getTimestamp(),
+                $booking->getEndDate()->getTimestamp(),
+                24 * 60 * 60
+            );
+            $days = array_map(function ($dayTimestamp){
+                return new  \DateTime(date('Y-m-d', $dayTimestamp));
+            },$resultat);
+
+            $notAvailableDays = array_merge($notAvailableDays, $days);
+        }
+        return $notAvailableDays;
+    }
 
     public function getId(): ?int
     {
@@ -208,4 +305,122 @@ class Property
 
         return $this;
     }
+
+    /**
+     * @return Collection|Rating[]
+     */
+    public function getRatings(): Collection
+    {
+        return $this->ratings;
+    }
+
+    public function addRating(Rating $rating): self
+    {
+        if (!$this->ratings->contains($rating)) {
+            $this->ratings[] = $rating;
+            $rating->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRating(Rating $rating): self
+    {
+        if ($this->ratings->contains($rating)) {
+            $this->ratings->removeElement($rating);
+            // set the owning side to null (unless already changed)
+            if ($rating->getProperty() === $this) {
+                $rating->setProperty(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Booking[]
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->contains($booking)) {
+            $this->bookings->removeElement($booking);
+            // set the owning side to null (unless already changed)
+            if ($booking->getProperty() === $this) {
+                $booking->setProperty(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getType(): ?Type
+    {
+        return $this->type;
+    }
+
+    public function setType(?Type $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Location[]
+     */
+    public function getLocations(): Collection
+    {
+        return $this->locations;
+    }
+
+    public function addLocation(Location $location): self
+    {
+        if (!$this->locations->contains($location)) {
+            $this->locations[] = $location;
+            $location->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLocation(Location $location): self
+    {
+        if ($this->locations->contains($location)) {
+            $this->locations->removeElement($location);
+            // set the owning side to null (unless already changed)
+            if ($location->getProperty() === $this) {
+                $location->setProperty(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

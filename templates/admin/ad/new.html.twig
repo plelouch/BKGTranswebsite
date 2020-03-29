@@ -1,4 +1,4 @@
-{% extends 'dash.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}Nouvelle annonce{% endblock %}
 
@@ -18,10 +18,10 @@
                 Création d'une nouvelle annonce
             </div>
             <div class="card-body">
-                {{ include('ad/_form.html.twig') }}
+                {{ include('admin/ad/_form.html.twig') }}
             </div>
         </div>
-        <a class="btn btn-link" href="{{ path('ad_index') }}">
+        <a class="btn btn-link" href="{{ path('admin_ad_index') }}">
             <i class="fas fa-arrow-circle-left"></i>
             Retour à la liste
         </a>

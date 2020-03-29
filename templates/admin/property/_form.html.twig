@@ -1,4 +1,46 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="row">
+        <div class="col-md-4">
+            {{ form_row(form.title) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.surface) }}
+        </div>
+        <div class="col-md-4">
+            {{ form_row(form.price) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            {{ form_row(form.rooms) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.bedrooms) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.floor) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.type) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            {{ form_row(form.adresse) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.city) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.image) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.sold) }}
+        </div>
+    </div>
+    {{ form_row(form.description) }}
+    <button class="btn btn-success">
+        <i class="fas fa-check"></i>
+        {{ button_label|default('Enregister') }}
+    </button>
 {{ form_end(form) }}

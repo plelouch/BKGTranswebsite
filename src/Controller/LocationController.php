@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Facture;
 use App\Entity\Location;
 use App\Entity\Retour;
+use App\Form\LocationPropertyType;
 use App\Form\LocationType;
 use App\Repository\LocationRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/location")
+ * @Route("/admin/location", name="admin_")
  * @IsGranted("ROLE_ADMIN")
  */
 class LocationController extends AbstractController
@@ -30,7 +31,7 @@ class LocationController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="location_new", methods={"GET","POST"})
+     * @Route("/new/car", name="location_new_car", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -67,6 +68,43 @@ class LocationController extends AbstractController
     }
 
     /**
+     * @Route("/new/propety", name="location_new_property", methods={"GET","POST"})
+     */
+    public function newProperty(Request $request): Response
+    {
+        $location = new Location();
+        $facture = new Facture();
+        $form = $this->createForm(LocationPropertyType::class, $location);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $location->setDepartAt(new \DateTime())
+                ->setIsReturn(false)
+            ;
+            $property = $location->getProperty();
+            $property->setSold(false);
+            $facture->setClient($location->getClient())
+                ->setDateAt(new \DateTime())
+                ->setNumFacture(mt_rand(5000, 10000))
+                ->setLocation($location)
+            ;
+
+            $entityManager->persist($location);
+            $entityManager->persist($facture);
+            $entityManager->persist($property);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('location_index');
+        }
+
+        return $this->render('admin/location/newProperty.html.twig', [
+            'location' => $location,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/{id}", name="location_show", methods={"GET"})
      */
     public function show(Location $location): Response
@@ -97,7 +135,27 @@ class LocationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/return", name="location_return")
+     * @Route("/{id}/edit/property", name="location_property_edit", methods={"GET","POST"})
+     */
+    public function editProperty(Request $request, Location $location): Response
+    {
+        $form = $this->createForm(LocationPropertyType::class, $location);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('location_index');
+        }
+
+        return $this->render('admin/location/editProperty.html.twig', [
+            'location' => $location,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/return", name="location_return_car")
      */
     public function retour(Location $location)
     {
@@ -109,7 +167,23 @@ class LocationController extends AbstractController
         $entityManager->persist($location);
         $entityManager->persist($voiture);
         $entityManager->flush();
-        return $this->redirectToRoute('location_index');
+        return $this->redirectToRoute('admin_location_index');
+    }
+
+    /**
+     * @Route("/{id}/return/property", name="location_return_property")
+     */
+    public function retourProperty(Location $location)
+    {
+        $location->setArriveAt(new \DateTime())
+            ->setIsReturn(true);
+        $property = $location->getProperty();
+        $property->setSold(true);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($location);
+        $entityManager->persist($property);
+        $entityManager->flush();
+        return $this->redirectToRoute('admin_location_index');
     }
 
     /**

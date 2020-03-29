@@ -18,9 +18,12 @@
                 Modification des formaliters de location
             </div>
             <div class="card-body">
-                {{ include('location/_form.html.twig', {'button_label': 'Modifier'}) }}
+                {{ include('admin/location/_form.html.twig', {'button_label': 'Modifier'}) }}
             </div>
         </div>
-        <a href="{{ path('location_index') }}">Retour à la liste</a>
+        <a class="btn btn-link" href="{{ path('admin_location_index') }}">
+            <i class="fas fa-arrow-circle-left"></i>
+            Retour à la liste
+        </a>
     </div>
 {% endblock %}

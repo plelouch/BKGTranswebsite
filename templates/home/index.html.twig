@@ -10,9 +10,10 @@
                         <div class="col-md-12 text-center">
                             <div class="slide-content">
                                 <h2>Bienvenu sur notre site de location.</h2>
-                                <p>Nous vous offrons la posibilité de faire des reservation de vos voiture en ligne.</p>
+                                <p>Nous vous offrons la posibilité de faire des reservation des voiture et des propriété en ligne.</p>
                                 <div class="slide-btn">
-                                    <a href="{{ path('ad_liste') }}" class="button">Nos voiture</a>
+                                    <a href="{{ path('ad_index') }}" class="button">Nos voiture</a>
+                                    <a href="{{ path('property_index') }}" class="button">Nos propriété</a>
                                 </div>
                             </div>
                         </div>
@@ -28,8 +29,10 @@
                             <div class="slide-content">
                                 <h2>Notre agence vous offres.</h2>
                                 <p>Notre agence vous offres la possibiliter de conduire la voiture de vos rêve à des côuts réduits.</p>
+                                <p>Elle vous offres la possibiliter de loué et d'acheter la propriété de votre choix.</p>
                                 <div class="slide-btn">
-                                    <a href="{{ path('ad_liste') }}" class="button">Nos voiture</a>
+                                    <a href="{{ path('ad_index') }}" class="button">Nos voiture</a>
+                                    <a href="{{ path('property_index') }}" class="button">Nos propriété</a>
                                 </div>
                             </div>
                         </div>
@@ -43,10 +46,10 @@
                     <div class="row justify-content-center">
                         <div class="col-md-12 text-center">
                             <div class="slide-content">
-                                <h2>We Are Digital Product Design Agency.</h2>
+                                <h2>Nos vous offrons d'autre service.</h2>
                                 <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
                                 <div class="slide-btn">
-                                    <a href="{{ path('ad_liste') }}" class="button">Nos voiture</a>
+                                    <a href="{{ path('property_index') }}" class="button">Nos propriété</a>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +97,48 @@
                             <div class="icon">
                                 <i class="fa fa-music"></i>
                             </div>
-                            <h4>Autre services</h4>
+                            <h4>Vente de voiture</h4>
+                        </div>
+                        <div class="content">
+                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 single-service-2">
+                    <div class="inner">
+                        <div class="title">
+                            <div class="icon">
+                                <i class="fa fa-film"></i>
+                            </div>
+                            <h4>Location de propriété</h4>
+                        </div>
+                        <div class="content">
+                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 single-service-2">
+                    <div class="inner">
+                        <div class="title">
+                            <div class="icon">
+                                <i class="fa fa-bookmark"></i>
+                            </div>
+                            <h4>Réservation de propriété</h4>
+                        </div>
+                        <div class="content">
+                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 single-service-2">
+                    <div class="inner">
+                        <div class="title">
+                            <div class="icon">
+                                <i class="fa fa-music"></i>
+                            </div>
+                            <h4>Vente de propriété</h4>
                         </div>
                         <div class="content">
                             <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames.</p>
@@ -112,28 +156,12 @@
             </div>
             <div class="row">
                 {% for ad in ads %}
-                    {% set url = path('ad_show', { 'id': ad.id }) %}
-                    <div class="single-portfolio col-md-4">
-                        <div class="inner">
-                            <div class="portfolio-img">
-                                <img height="200" src="/img/voiture/{{ ad.voiture.image }}" alt="portfolio-image">
-                                <div class="hover-content">
-                                    <div>
-                                        <a href="{{ url }}" class="button">plus d'information</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portfolio-content">
-                                <a href="{{ url }}"><h3>{{ ad.title }}</h3></a>
-                                <span>{{ ad.introduction }}</span>
-                            </div>
-                        </div>
-                    </div>
+                    {{ include('ad/_ad.html.twig') }}
                 {% endfor %}
             </div>
             <div class="row">
                 <div class="col-12 text-center" data-margin="40px 0 0">
-                    <a href="{{ path('ad_liste') }}" class="button">Voir tous nos voitures</a>
+                    <a href="{{ path('ad_index') }}" class="button">Voir tous nos voitures</a>
                 </div>
             </div>
         </div>

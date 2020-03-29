@@ -1,0 +1,130 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Propriété : {{ property.title }}{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Propriété : {{ property.title }}</a>
+            </li>
+            <li class="breadcrumb-item active"></li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-eye"></i>
+                Information sur la propriété {{ include('admin/property/_delete_form.html.twig') }}
+                <a class="btn btn-warning btn-sm" href="{{ path('admin_property_edit', {'id': property.id}) }}">
+                    <i class="fas fa-edit"></i>
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img src="/img/properties/{{ property.image }}" width="100%" height="400" alt="{{ property.image }}">
+                    </div>
+                    <div class="col-sm-8">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th>Numéros d'identification'</th>
+                                <td>{{ property.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Titre de la propriété</th>
+                                <td>{{ property.title }}</td>
+                            </tr>
+                            <tr>
+                                <th>Type</th>
+                                <td>{{ property.type.name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Montant</th>
+                                <td>{{ property.price|number_format(2, ',', ' ') }} fcfa / mois</td>
+                            </tr>
+                            <tr>
+                                <th>Ville</th>
+                                <td>{{ property.city }}</td>
+                            </tr>
+                            <tr>
+                                <th>Adresse</th>
+                                <td>{{ property.adresse }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date de création</th>
+                                <td>{{ property.createdAt ? property.createdAt|date('Y-m-d') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Disponible</th>
+                                <td>
+                                    {% if property.type.name == "vente" %}
+                                        {{ property.sold ? 'Vendue' : 'Toujours disponile' }}
+                                    {% else %}
+                                        {{ property.sold ? 'Loué' : 'Toujours disponile' }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p>Description</p>
+                {{ property.description|raw }}
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header">
+                Caracteristique de la propriété
+                <span class="pull-right clickable panel-toggle panel-button-tab-left">
+                    <em class="fa fa-toggle-up"></em>
+                </span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th>Surface couvert</th>
+                                <td>
+                                    {{ property.surface }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Nombre de pièce(s)</th>
+                                <td>
+                                    {{ property.rooms }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th>Nombre de chambre(s)</th>
+                                <td>
+                                    {{ property.bedrooms }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Nombre d'étage(s)</th>
+                                <td>
+                                    {{ property.floor }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="btn btn-link" href="{{ path('admin_property_index') }}">
+            <i class="fas fa-arrow-circle-left"></i>
+            Retour à la liste
+        </a>
+    </div>
+{% endblock %}

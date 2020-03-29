@@ -22,6 +22,12 @@ class AdRepository extends ServiceEntityRepository
     public function findByBookingCount()
     {
         return $this->createQueryBuilder('a')
+            ->join('a.ratings', 'r')
+            ->addSelect('r')
+            ->where('r.rating >= :val')
+            ->setParameter('val', 3)
+            ->orderBy('a.title', 'DESC')
+            ->setMaxResults(6)
             ->getQuery()
             ->getResult()
             ;

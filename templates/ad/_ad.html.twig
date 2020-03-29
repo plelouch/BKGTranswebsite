@@ -1,0 +1,36 @@
+{% set url = path('ad_show', { 'id': ad.id }) %}
+<div class="single-portfolio col-md-4">
+    <div class="inner">
+        <div class="portfolio-content">
+            <dl>
+                <dt>Type : {{ ad.voiture.type.name }} </dt>
+                <dt>Status de la voiture :
+                    <strong>
+                        {% if ad.voiture.type.name == "vente" %}
+                            {{ ad.voiture.isDispo ? 'Toujour disponible' : 'Déjà acheter' }}
+                        {% else %}
+                            {{ ad.voiture.isDispo ? 'Toujour disponible' : 'Déjà loué' }}
+                        {% endif %}
+                    </strong>
+                </dt>
+            </dl>
+            {% if ad.ratings|length > 0 %}
+                {{ include('partials/_rating.html.twig' , {'rating': ad.avgRatings}) }}<br>
+            {% else %}
+                <small>Pas encore noté</small>
+            {% endif %}
+        </div>
+        <div class="portfolio-img">
+            <img height="200" src="/img/voiture/{{ ad.voiture.image }}" alt="portfolio-image">
+            <div class="hover-content">
+                <div>
+                    <a href="{{ url }}" class="button">plus d'information</a>
+                </div>
+            </div>
+        </div>
+        <div class="portfolio-content">
+            <a href="{{ url }}"><h3>{{ ad.title }}</h3></a>
+            <span>{{ ad.introduction }}</span>
+        </div>
+    </div>
+</div>

@@ -18,6 +18,15 @@
                         <p> {{ ad.description | raw }}</p>
                         <dl>
                             <dt><strong>{{ ad.price }} fcfa</strong> par jour</dt>
+                            <dt>Status de la voiture :
+                                <strong>
+                                    {% if ad.voiture.type.name == "vente" %}
+                                        {{ ad.voiture.isDispo ? 'Toujour disponible' : 'Déjà acheter' }}
+                                    {% else %}
+                                        {{ ad.voiture.isDispo ? 'Toujour disponible' : 'Déjà loué' }}
+                                    {% endif %}
+                                </strong>
+                            </dt>
                         </dl>
                         {% if app.user %}
                             {% set note = ad.ratingUser(app.user) %}
@@ -25,7 +34,7 @@
                             {% if note is not null %}
                                 <dl class="row align-items-center" style="margin-top: 1.5em;">
                                     <dt class="h4 col-sm-3">Votre note :</dt>
-                                    <dd class="col-sm-6 " style="color: goldenrod">{{ include('ad/_rating.html.twig' , {'rating': note.rating}) }}</dd>
+                                    <dd class="col-sm-6 " style="color: goldenrod">{{ include('partials/_rating.html.twig' , {'rating': note.rating}) }}</dd>
                                 </dl>
                             {% else %}
                                 {{ form_start(form) }}
@@ -34,7 +43,7 @@
                                 {{ form_end(form) }}
                             {% endif %}
                         {% else %}
-                            {{ include('ad/_rating.html.twig' , {'rating': ad.avgRatings}) }}<br>
+                            {{ include('partials/_rating.html.twig' , {'rating': ad.avgRatings}) }}<br>
                         {% endif %}
                         <a href="{{ path('booking_new', {'id': ad.id}) }}" class="button">Fair une Reservation</a>
                     </div>

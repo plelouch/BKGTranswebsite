@@ -3,9 +3,22 @@
     <div class="inner">
         <div class="portfolio-content">
             <dl>
-                <dt>Status de la Propriété : <strong> {{ property.sold ? 'Acheter' : 'Toujour disponible' }}</strong> </dt>
+                <dt>Type : {{ property.type.name }} </dt>
+                <dt>Status de la Propriété :
+                    <strong>
+                        {% if property.type.name == "vente" %}
+                            {{ property.sold ? 'Toujour disponible' : 'Acheter' }}
+                        {% else %}
+                            {{ property.sold ? 'Toujour disponible' : 'Loué' }}
+                        {% endif %}
+                    </strong>
+                </dt>
             </dl>
-            <small>Pas encore noté</small>
+            {% if property.ratings|length > 0 %}
+                {{ include('partials/_rating.html.twig' , {'rating': property.avgRatings}) }}<br>
+            {% else %}
+                <small>Pas encore noté</small>
+            {% endif %}
         </div>
         <div class="portfolio-img">
             <img height="200" src="{{ asset('assets/img/page-title.jpg') }}" alt="portfolio-image">

@@ -1,9 +1,10 @@
-{% extends 'dash.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}Réservation n°{{ booking.id }}{% endblock %}
 
 {% block body %}
     {% set ad = booking.ad %}
+    {% set property = booking.property %}
     <div class="container-fluid">
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
@@ -61,21 +62,31 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="alert alert-ligth">
-                            <h2 class="alert-heading">Votre Voiture</h2>
-                            <h4 class="my-3">
-                                <h4>{{ ad.title }}</h4>
-                            </h4>
-                            <img src="/img/voiture/{{ ad.voiture.image }}" alt="" class="img-fluid">
-                            <div class="my-3">
-                                {{ ad.description | raw }}
-                            </div>
-
+                            {% if booking.ad is not null %}
+                                <h2 class="alert-heading">Votre Voiture</h2>
+                                <h4 class="my-3">
+                                    <h4>{{ ad.title }}</h4>
+                                </h4>
+                                <img src="/img/voiture/{{ ad.voiture.image }}" alt="" class="img-fluid">
+                                <div class="my-3">
+                                    {{ ad.description | raw }}
+                                </div>
+                            {% else %}
+                                <h2 class="alert-heading">Votre Propriété</h2>
+                                <h4 class="my-3">
+                                    <h4>{{ property.title }}</h4>
+                                </h4>
+                                <img src="/img/properties/{{ property.image }}" alt="" class="img-fluid">
+                                <div class="my-3">
+                                    {{ property.description | raw }}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <a class="btn btn-link" href="{{ path('booking_list') }}">
+        <a class="btn btn-link" href="{{ path('admin_booking_index') }}">
             <i class="fas fa-arrow-circle-left"></i>
             Retour à la liste
         </a>

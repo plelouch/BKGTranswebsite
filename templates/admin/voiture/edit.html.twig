@@ -20,7 +20,7 @@
                 Mofication info de la  voiture {{ voiture.marque }} {{ voiture.modele }}
             </div>
             <div class="card-body">
-                {{ include('voiture/_form.html.twig', {'button_label': 'Modifier'}) }}
+                {{ include('admin/voiture/_form.html.twig', {'button_label': 'Modifier'}) }}
             </div>
         </div>
         <a class="btn btn-link" href="{{ path('voiture_index') }}">

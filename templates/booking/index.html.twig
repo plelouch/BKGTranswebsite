@@ -13,13 +13,24 @@
         <div class="container">
             {% for booking in app.user.bookings %}
                 {% set ad = booking.ad %}
+                {% set property = booking.property %}
                 {% set validite = booking.confirmation %}
                 <div class="row" style="margin-bottom: 1.5em;">
                     <div class="col-sm-4">
-                        <img src="/img/voiture/{{ ad.voiture.image }}" alt="" class="img-fluid">
+                        {% if ad is not null %}
+                         <img src="/img/voiture/{{ ad.voiture.image }}" alt="" class="img-fluid">
+                        {% else %}
+                            <img src="{{ asset('assets/img/page-title.jpg') }}" alt="" class="img-fluid">
+                        {% endif %}
                     </div>
                     <div class="col-sm-8">
-                        <h4>{{ ad.title }}</h4>
+                        <h4>
+                            {% if ad == null %}
+                                Propriété : {{ property.title }}
+                            {% else %}
+                                Voiture : {{ ad.title }}
+                            {% endif %}
+                        </h4>
                         <p>
                             Réservation <strong>n°{{ booking.id }}</strong><br>
                             Du {{ booking.startDate | date('d/m/Y') }} au {{ booking.endDate| date('d/m/Y') }}

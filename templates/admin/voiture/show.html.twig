@@ -15,12 +15,12 @@
         <div class="card mb-3">
             <div class="card-header">
                 <i class="fas fa-eye"></i>
-                Information sur la voiture {{ include('voiture/_delete_form.html.twig') }}
+                Information sur la voiture {{ include('admin/voiture/_delete_form.html.twig') }}
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-4">
-                        <img src="/img/voiture/{{ voiture.image }}" width="100%" height="400" alt="Avatar.png">
+                        <img src="/img/voiture/{{ voiture.image }}" width="100%" height="400" alt="{{ voiture.image }}">
                     </div>
                     <div class="col-sm-8">
                         <table class="table">
@@ -40,6 +40,10 @@
                             <tr>
                                 <th>Couleur</th>
                                 <td>{{ voiture.couleur }}</td>
+                            </tr>
+                            <tr>
+                                <th>Type</th>
+                                <td>{{ voiture.type.name }}</td>
                             </tr>
                             <tr>
                                 <th>Compteur</th>

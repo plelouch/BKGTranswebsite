@@ -22,16 +22,20 @@ class Rating
     private $rating;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="ratings")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ratings")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ad", inversedBy="ratings")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Ad", inversedBy="ratings")
      */
     private $ad;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Property", inversedBy="ratings")
+     */
+    private $property;
 
     public function getId(): ?int
     {
@@ -70,6 +74,18 @@ class Rating
     public function setAd(?ad $ad): self
     {
         $this->ad = $ad;
+
+        return $this;
+    }
+
+    public function getProperty(): ?property
+    {
+        return $this->property;
+    }
+
+    public function setProperty(?property $property): self
+    {
+        $this->property = $property;
 
         return $this;
     }

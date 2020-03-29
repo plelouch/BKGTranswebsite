@@ -8,6 +8,7 @@ use App\Entity\Client;
 use App\Entity\Infosup;
 use App\Entity\Property;
 use App\Entity\Rating;
+use App\Entity\Type;
 use App\Entity\User;
 use App\Entity\Voiture;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -31,6 +32,11 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('FR-fr');
 
+        $createdAt = $faker->dateTimeBetween('-6 months');
+        $startDate = $faker->dateTimeBetween('-3 months');
+        $duration = mt_rand(3, 10);
+        $endDate = (clone $startDate)->modify("+$duration days");
+
         $userAdmin = new User();
         $userAdmin->setUsername("Admin")
                 ->setPassword($this->encoder->encodePassword($userAdmin, 'password'))
@@ -38,7 +44,9 @@ class AppFixtures extends Fixture
         $manager->persist($userAdmin);
 
         $users = [];
+        $types = [];
         $genres = ['male', 'female'];
+        $typeGenres = ['Location', 'vente'];
 
         for ( $u = 1; $u <= 10; $u++){
 
@@ -66,12 +74,21 @@ class AppFixtures extends Fixture
             $manager->persist($user);
             $users[] = $user;
         }
+
+        for ($i = 1; $i <= 2; $i++){
+            $type = new Type();
+            $typeGenre = $faker->randomElement($typeGenres);
+
+            $type->setName($typeGenre);
+            $manager->persist($type);
+            $types[] =$type;
+        }
+
+        $type = $types[mt_rand(0, count($types) - 1)];
+
         for( $i = 1; $i <= 10; $i++){
             $voiture = new Voiture();
-            $createdAt = $faker->dateTimeBetween('-6 months');
-            $startDate = $faker->dateTimeBetween('-3 months');
-            $duration = mt_rand(3, 10);
-            $endDate = (clone $startDate)->modify("+$duration days");
+
 
             $voiture->setMatricule($faker->numberBetween(1000, 9999))
                 ->setModele('Avensise')
@@ -80,7 +97,9 @@ class AppFixtures extends Fixture
                 ->setCouleur($faker->rgbCssColor)
                 ->setIsDispo($faker->boolean)
                 ->setDateDrive($faker->dateTimeBetween('-3 months'))
-                ->setImage("16643035.jpg");
+                ->setImage("2555b56ef91365aef5d493bf076b623b.jpeg")
+                ->setType($type)
+            ;
 
             $infoSup = new Infosup();
 
@@ -154,7 +173,32 @@ class AppFixtures extends Fixture
                 ->setPrice(mt_rand(1000000, 999999999))
                 ->setRooms(mt_rand(1,7))
                 ->setSold($faker->boolean)
-                ->setSurface(mt_rand(10,100));
+                ->setSurface(mt_rand(10,100))
+                ->setImage('diagonal-building.jpg')
+                ->setType($type)
+            ;
+            for ($j = 1; $j <= mt_rand(0, 10); $j++) {
+                $booking = new Booking();
+                $amout = $ad->getPrice() * $duration;
+
+                $booking->setCreatedAt($createdAt)
+                    ->setProperty($property)
+                    ->setBooker($booker)
+                    ->setStartDate($startDate)
+                    ->setEndDate($endDate)
+                    ->setAmount($amout)
+                ;
+
+                $manager->persist($booking);
+
+            }
+            if(mt_rand(0,1)){
+                $comment = new Rating();
+                $comment->setProperty($property)
+                    ->setAuthor($booker)
+                    ->setRating(mt_rand(1, 5));
+                $manager->persist($comment);
+            }
             $manager->persist($property);
         }
 

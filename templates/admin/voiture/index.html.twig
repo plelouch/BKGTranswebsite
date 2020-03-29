@@ -31,7 +31,7 @@
                             <th>Marque</th>
                             <th>Modèle</th>
                             <th>Compteur</th>
-                            <th>Couleur</th>
+                            <th>Type</th>
                             <th>Disponible</th>
                             <th>Actions</th>
                         </tr>
@@ -45,7 +45,7 @@
                                 <td>{{ voiture.marque }}</td>
                                 <td>{{ voiture.modele }}</td>
                                 <td>{{ voiture.compteur }}</td>
-                                <td>{{ voiture.couleur }}</td>
+                                <td>{{ voiture.type.name }}</td>
                                 <td>{{ voiture.isDispo ? 'Oui' : 'Non' }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm" href="{{ path('voiture_show', {'id': voiture.id}) }}">
@@ -54,7 +54,7 @@
                                     <a class="btn btn-warning btn-sm" href="{{ path('voiture_edit', {'id': voiture.id}) }}">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    {{ include('voiture/_delete_form.html.twig') }}
+                                    {{ include('admin/voiture/_delete_form.html.twig') }}
                                 </td>
                             </tr>
                         {% else %}

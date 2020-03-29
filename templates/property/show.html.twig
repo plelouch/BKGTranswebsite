@@ -20,8 +20,26 @@
                             <dt>Status de la Propriété : <strong> {{ property.sold ? 'Acheter' : 'Toujour disponible' }}</strong> </dt>
                         </dl>
 
+                        {% if app.user %}
+                            {% set note = property.ratingUser(app.user) %}
+
+                            {% if note is not null %}
+                                <dl class="row align-items-center" style="margin-top: 1.5em;">
+                                    <dt class="h4 col-sm-3">Votre note :</dt>
+                                    <dd class="col-sm-6 " style="color: goldenrod">{{ include('partials/_rating.html.twig' , {'rating': note.rating}) }}</dd>
+                                </dl>
+                            {% else %}
+                                {{ form_start(form) }}
+                                {{ form_row(form.rating) }}
+                                <button class="button-2">Noté!</button>
+                                {{ form_end(form) }}
+                            {% endif %}
+                        {% else %}
+                            {{ include('partials/_rating.html.twig' , {'rating': property.avgRatings}) }}<br>
+                        {% endif %}
+
                         {% if property.sold == false %}
-                            <a href="" class="button">Loué</a>
+                            <a href="{{ path('property_booking_new', {'id': property.id}) }}" class="button">Réserver pour location</a>
                             <a href="" class="button-2">Acheter</a>
                         {% endif %}
                     </div>

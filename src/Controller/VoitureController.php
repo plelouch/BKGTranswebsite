@@ -44,7 +44,7 @@ class VoitureController extends AbstractController
             $image = $form['image']->getData();
             $name = md5(uniqid()).'.'.$image->guessExtension();
             $image->move(
-                $this->getParameter('image_directory'),
+                $this->getParameter('image_voiture_directory'),
                 $name
             );
             $voiture->setImage($name);
@@ -78,7 +78,6 @@ class VoitureController extends AbstractController
      */
     public function edit(Request $request, Voiture $voiture): Response
     {
-        $voiture->setImage("");
         $form = $this->createForm(VoitureType::class, $voiture);
         $form->handleRequest($request);
 
@@ -88,7 +87,7 @@ class VoitureController extends AbstractController
             if($image){
                 $name = md5(uniqid()).'.'.$image->guessExtension();
                 $image->move(
-                    $this->getParameter('image_directory'),
+                    $this->getParameter('image_voiture_directory'),
                     $name
                 );
             }

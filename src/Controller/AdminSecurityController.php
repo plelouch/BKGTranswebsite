@@ -4,16 +4,21 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AdminSecurityController extends AbstractController
 {
     /**
      * @Route("/admin/login", name="admin_app_login")
      */
-    public function login()
+    public function login(AuthenticationUtils $authenticationUtils)
     {
+        if ($this->getUser()){
+            return $this->redirectToRoute('homeadmin');
+        }
         return $this->render('admin/security/login.html.twig', [
-            'controller_name' => 'AdminSecurityController',
+            'last_username' => $authenticationUtils->getLastUsername(),
+            'error' => $authenticationUtils->getLastAuthenticationError()
         ]);
     }
 

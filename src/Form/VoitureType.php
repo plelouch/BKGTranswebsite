@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Type;
 use App\Entity\Voiture;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -57,7 +59,12 @@ class VoitureType extends AbstractType
                 ]
             ])
             ->add('image', FileType::class,[
+                'data_class' => null,
                 'label' => 'Image de la voiture',
+            ])
+            ->add('type', EntityType::class,[
+                'class' => Type::class,
+                'choice_label' => 'name'
             ])
             ->add('infosups', CollectionType::class,[
                 'entry_type' => InfovoitureType::class,

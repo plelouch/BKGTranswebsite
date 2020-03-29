@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ad;
 use App\Entity\Booking;
+use App\Entity\Property;
 use App\Form\BookingType;
 use App\Repository\BookingRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -61,6 +62,42 @@ class BookingController extends AbstractController
     }
 
     /**
+     * @Route("/property/{id}/booking", name="property_booking_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function newProperty(Property $property, Request $request): Response
+    {
+        $booking = new Booking();
+        $form = $this->createForm(BookingType::class, $booking);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $booker = $this->getUser();
+            $booking->setProperty($property)
+                ->setBooker($booker)
+                ->setConfirmation('En Attente...');
+            if (!$booking->isBookableDays()){
+                $this->addFlash('warning', "Vous ne pouvez pas faire de reservation sur cette date");
+            }else{
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($booking);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('booking_show',[
+                    'id' => $booking->getId(),
+                    'withAlert' => true
+                ]);
+            }
+
+        }
+
+        return $this->render('booking/property/new.html.twig', [
+            'property' => $property,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/booking/{id}", name="booking_show", methods={"GET"})
      * @IsGranted("ROLE_USER")
      */
@@ -71,65 +108,4 @@ class BookingController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/admin/booking/list", name="booking_list", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function list(BookingRepository $bookingRepository): Response
-    {
-        return $this->render('admin/booking/index.html.twig', [
-            'bookings' => $bookingRepository->findAll(),
-        ]);
-    }
-
-    /**
-     * @Route("/admin/booking/{id}", name="booking_delete", methods={"DELETE"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function delete(Request $request, Booking $booking): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$booking->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($booking);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('booking_index');
-    }
-
-    /**
-     * @Route("/admin/booking/{id}/valide", name="booking_valide", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function valide(Booking $booking): Response
-    {
-        $booking->setConfirmation('Accepter');
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($booking);
-        $entityManager->flush();
-        return $this->redirectToRoute('booking_list');
-    }
-    /**
-     * @Route("/admin/booking/{id}/notvalide", name="booking_notvalide", methods={"GET","POST"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function notValide(Booking $booking): Response
-    {
-        $booking->setConfirmation('Réfuser');
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($booking);
-        $entityManager->flush();
-        return $this->redirectToRoute('booking_list');
-    }
-
-    /**
-     * @Route("/admin/booking/{id}", name="admin_booking_show")
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function adminShow(Booking $booking)
-    {
-        return $this->render('booking/admin/show.html.twig', [
-            'booking' => $booking,
-        ]);
-    }
 }

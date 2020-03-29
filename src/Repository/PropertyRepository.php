@@ -22,6 +22,11 @@ class PropertyRepository extends ServiceEntityRepository
     public function findBy6BestProperty()
     {
         return $this->createQueryBuilder('p')
+            ->join('p.ratings', 'r')
+            ->addSelect('r')
+            ->where('r.rating >= :val')
+            ->setParameter('val', 3)
+            ->orderBy('p.createdAt', 'DESC')
             ->setMaxResults(6)
             ->getQuery()
             ->getResult()

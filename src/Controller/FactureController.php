@@ -42,10 +42,12 @@ class FactureController extends AbstractController
     {
         $location = $facture->getLocation();
         $voiture = $location->getVoiture();
+        $property = $location->getProperty();
         return $this->render('admin/facture/show.html.twig', [
             'facture' => $facture,
             'location' => $location,
             'voiture' => $voiture,
+            'property' => $property
         ]);
     }
     /**

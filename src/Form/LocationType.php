@@ -29,7 +29,7 @@ class LocationType extends AbstractType
                 ]
             ])
             ->add('ArriveAt', DateTimeType::class,[
-                'label' => 'Date d\'arrivée'
+                'label' => 'Date d\'arrivée',
             ])
             ->add('client', EntityType::class, [
                 'class' => Client::class,
@@ -39,8 +39,10 @@ class LocationType extends AbstractType
                 'class' => Voiture::class,
                 'query_builder' => function (EntityRepository $repository){
                     return $repository->createQueryBuilder('v')
+                        ->join('v.type', 't')
                         ->where('v.isDispo = :val')
-                        ->setParameter('val', true);
+                        ->andWhere('t.name = :val1')
+                        ->setParameters(['val' => true, 'val1' => "Location"]);
                 },
                 'choice_label' => 'marque'
             ])

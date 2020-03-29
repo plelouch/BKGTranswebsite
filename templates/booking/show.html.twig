@@ -4,6 +4,7 @@
 
 {% block body %}
     {% set ad = booking.ad %}
+    {% set property = booking.property %}
     <div class="page-title sp" style="background-image: url({{ asset('assets/img/page-title.jpg') }})">
         <div class="container text-center">
             <h2>Votre réservation (n°{{ booking.id }})</h2>
@@ -22,7 +23,11 @@
                             </strong>
                             pour l'annonce
                             <strong>
-                                <a href="{{ path('ad_show', {'id': ad.id}) }}">{{ ad.title }}</a>
+                                {% if ad is not null %}
+                                    <a href="{{ path('ad_show', {'id': ad.id}) }}">{{ ad.title }}</a>
+                                {% else %}
+                                    <a href="{{ path('property_show', {'id': property.id}) }}">{{ property.title }}</a>
+                                {% endif %}
                             </strong>
                             a bien été prise en compte !
                         </p>
@@ -69,16 +74,29 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="alert alert-ligth">
-                            <h2 class="alert-heading">Votre Voiture</h2>
-                            <h4 class="my-3">
-                                <a href="{{ path('ad_show', {'id': ad.id}) }}">{{ ad.title }}</a>
-                            </h4>
-                            <img src="/img/voiture/{{ ad.voiture.image }}" alt="" class="img-fluid">
-                            <div class="my-3">
-                                {{ ad.description | raw }}
-                            </div>
+                            {% if ad is not null %}
+                                <h2 class="alert-heading">Votre Voiture</h2>
+                                <h4 class="my-3">
+                                    <a href="{{ path('ad_show', {'id': ad.id}) }}">{{ ad.title }}</a>
+                                </h4>
+                                <img src="/img/voiture/{{ ad.voiture.image }}" alt="" class="img-fluid">
+                                <div class="my-3">
+                                    {{ ad.description | raw }}
+                                </div>
 
-                            <a href="{{ path('ad_show', {'id': ad.id}) }}" class="btn btn-primary">Plus d'information</a>
+                                <a href="{{ path('ad_show', {'id': ad.id}) }}" class="btn btn-primary">Plus d'information</a>
+                            {% else %}
+                                <h2 class="alert-heading">Votre propriété</h2>
+                                <h4 class="my-3">
+                                    <a href="{{ path('property_show', {'id': property.id}) }}">{{ property.title }}</a>
+                                </h4>
+                                <img src="{{ asset('assets/img/page-title.jpg') }}" alt="" class="img-fluid">
+                                <div class="my-3">
+                                    {{ property.description | raw }}
+                                </div>
+
+                                <a href="{{ path('property_show', {'id': property.id}) }}" class="btn btn-primary">Plus d'information</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

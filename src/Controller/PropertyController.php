@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Property;
-use App\Form\PropertyType;
+use App\Entity\Rating;
+use App\Form\RatingType;
 use App\Repository\PropertyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,69 +27,24 @@ class PropertyController extends AbstractController
     }
 
     /**
-     * @Route("/property/new", name="property_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
+ * @Route("/property/{id}", name="property_show", methods={"GET", "POST"})
+ */
+    public function show(Property $property, Request $request): Response
     {
-        $property = new Property();
-        $form = $this->createForm(PropertyType::class, $property);
+        $rating = new Rating();
+        $form = $this->createForm(RatingType::class, $rating);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if($form->isSubmitted() and $form->isValid()){
+            $rating->setProperty($property)
+                ->setAuthor($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($property);
+            $entityManager->persist($rating);
             $entityManager->flush();
 
-            return $this->redirectToRoute('property_index');
         }
-
-        return $this->render('property/new.html.twig', [
-            'property' => $property,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/property/{id}", name="property_show", methods={"GET"})
-     */
-    public function show(Property $property): Response
-    {
         return $this->render('property/show.html.twig', [
             'property' => $property,
+            'form' => $form->createView()
         ]);
-    }
-
-    /**
-     * @Route("/property/{id}/edit", name="property_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Property $property): Response
-    {
-        $form = $this->createForm(PropertyType::class, $property);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('property_index');
-        }
-
-        return $this->render('property/edit.html.twig', [
-            'property' => $property,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/property/{id}", name="property_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Property $property): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$property->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($property);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('property_index');
     }
 }

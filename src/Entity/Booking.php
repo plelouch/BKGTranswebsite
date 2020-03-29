@@ -43,7 +43,6 @@ class Booking
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Ad", inversedBy="bookings")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $ad;
 
@@ -63,6 +62,11 @@ class Booking
     private $confirmation;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Property", inversedBy="bookings")
+     */
+    private $property;
+
+    /**
      * @ORM\PrePersist()
      */
     public function prePersist()
@@ -71,7 +75,11 @@ class Booking
             $this->createdAt = new \DateTime();
         }
         if (empty($this->amount)){
-            $this->amount = $this->ad->getPrice() * $this->getDuration();
+            if ($this->ad){
+                $this->amount = $this->ad->getPrice() * $this->getDuration();
+            }else {
+                $this->amount = $this->property->getPrice() * $this->getDuration();
+            }
         }
     }
 
@@ -86,8 +94,15 @@ class Booking
      */
     public function isBookableDays()
     {
-        $notAvailableDays = $this->ad->getNotAvailableDays();
-        $bookingDays = $this->getDays();
+        if ($this->ad){
+            $notAvailableDays = $this->ad->getNotAvailableDays();
+            $bookingDays = $this->getDays();
+        }else{
+            $notAvailableDays = $this->property->getNotAvailableDays();
+            $bookingDays = $this->getMounth();
+        }
+
+
 
         $formatDays = function($day){
             return $day->format('Y-m-d');
@@ -108,6 +123,23 @@ class Booking
      * @return array
      */
     public function getDays()
+    {
+        $resultat = range(
+            $this->startDate->getTimestamp(),
+            $this->endDate->getTimestamp(),
+            24 * 60 * 60
+        );
+        $days = array_map(function ($day){
+            return new \DateTime(date('Y-m-d', $day));
+        },$resultat);
+
+        return $days;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMounth()
     {
         $resultat = range(
             $this->startDate->getTimestamp(),
@@ -218,6 +250,18 @@ class Booking
     public function setConfirmation(?string $confirmation): self
     {
         $this->confirmation = $confirmation;
+
+        return $this;
+    }
+
+    public function getProperty(): ?property
+    {
+        return $this->property;
+    }
+
+    public function setProperty(?property $property): self
+    {
+        $this->property = $property;
 
         return $this;
     }

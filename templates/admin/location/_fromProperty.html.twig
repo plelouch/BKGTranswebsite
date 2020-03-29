@@ -1,0 +1,27 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">{{ form_row(form.client) }}</div>
+            <div class="col-md-6">{{ form_row(form.property) }}</div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">{{ form_row(form.dateLocation) }}</div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">{{ form_row(form.avance) }}</div>
+                    <div class="col-md-6">{{ form_row(form.price) }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">{{ form_row(form.ArriveAt) }}</div>
+        </div>
+    </div>
+</div>
+<button class="btn btn-success">{{ button_label|default('Louer') }}</button>
+{{ form_end(form) }}

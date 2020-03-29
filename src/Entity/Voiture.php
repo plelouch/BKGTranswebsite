@@ -5,10 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VoitureRepository")
+ * @UniqueEntity(fields={"matricule"}, message="Ce numéros de matricule existe déjà")
  */
 class Voiture
 {
@@ -74,6 +76,12 @@ class Voiture
      * @ORM\OneToMany(targetEntity="App\Entity\Ad", mappedBy="voiture", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $ads;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Type", inversedBy="voiture")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $type;
 
     public function __construct()
     {
@@ -272,6 +280,18 @@ class Voiture
                 $ad->setVoiture(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?Type
+    {
+        return $this->type;
+    }
+
+    public function setType(?Type $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
