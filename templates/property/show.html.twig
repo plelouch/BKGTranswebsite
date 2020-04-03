@@ -16,8 +16,22 @@
                         <h3>Desciption de la propriété </h3>
                         <p> {{ property.description | raw }}</p>
                         <dl>
-                            <dt><strong>{{ property.price|number_format(2, ',', ' ') }} fcfa</strong></dt>
-                            <dt>Status de la Propriété : <strong> {{ property.sold ? 'Acheter' : 'Toujour disponible' }}</strong> </dt>
+                            <dt>
+                                {% if property.type.name == "vente" %}
+                                    <p>Prix de vente : <strong>{{ property.price|number_format(2, ',', ' ') }} fcfa</strong></p>
+                                {% else %}
+                                    <p>Prix de location : <strong>{{ property.price|number_format(2, ',', ' ') }} fcfa</strong> / mois</p>
+                                {% endif %}
+                            </dt>
+                            <dt>Status de la Propriété :
+                                <strong>
+                                    {% if property.type.name == "vente" %}
+                                        {{ property.sold ? 'Acheter' : 'Toujour disponible' }}
+                                    {% else %}
+                                        {{ property.sold ? 'Loué' : 'Toujour disponible' }}
+                                    {% endif %}
+                                </strong>
+                            </dt>
                         </dl>
 
                         {% if app.user %}
@@ -39,8 +53,17 @@
                         {% endif %}
 
                         {% if property.sold == false %}
-                            <a href="{{ path('property_booking_new', {'id': property.id}) }}" class="button">Réserver pour location</a>
-                            <a href="" class="button-2">Acheter</a>
+                            {% if property.type.name == "vente" %}
+                                <a href="{{ path('property_booking_new', {'id': property.id}) }}" class="button">Réserver pour vente</a>
+                            {% else %}
+                                <a href="{{ path('property_booking_new', {'id': property.id}) }}" class="button">Réserver pour location</a>
+                            {% endif %}
+                        {% else %}
+                            {% if property.type.name == "vente" %}
+                                <strong>Cette propriété ne peut-etre vendue car elle à été déjà vendue</strong>
+                            {% else %}
+                                <strong>Cette propriété ne peut-etre loué car elle à été déjà loué</strong>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>

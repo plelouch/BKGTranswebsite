@@ -7,9 +7,9 @@
                 <dt>Status de la Propriété :
                     <strong>
                         {% if property.type.name == "vente" %}
-                            {{ property.sold ? 'Toujour disponible' : 'Acheter' }}
+                            {{ property.sold ? 'Acheter' : 'Toujour disponible' }}
                         {% else %}
-                            {{ property.sold ? 'Toujour disponible' : 'Loué' }}
+                            {{ property.sold ? 'Loué' : 'Toujour disponible' }}
                         {% endif %}
                     </strong>
                 </dt>

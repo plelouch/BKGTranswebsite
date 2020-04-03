@@ -102,11 +102,17 @@ class Property
      */
     private $locations;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sell", mappedBy="property")
+     */
+    private $sells;
+
     public function __construct()
     {
         $this->ratings = new ArrayCollection();
         $this->bookings = new ArrayCollection();
         $this->locations = new ArrayCollection();
+        $this->sells = new ArrayCollection();
     }
 
     /**
@@ -417,6 +423,37 @@ class Property
             // set the owning side to null (unless already changed)
             if ($location->getProperty() === $this) {
                 $location->setProperty(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sell[]
+     */
+    public function getSells(): Collection
+    {
+        return $this->sells;
+    }
+
+    public function addSell(Sell $sell): self
+    {
+        if (!$this->sells->contains($sell)) {
+            $this->sells[] = $sell;
+            $sell->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSell(Sell $sell): self
+    {
+        if ($this->sells->contains($sell)) {
+            $this->sells->removeElement($sell);
+            // set the owning side to null (unless already changed)
+            if ($sell->getProperty() === $this) {
+                $sell->setProperty(null);
             }
         }
 

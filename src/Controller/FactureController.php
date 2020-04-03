@@ -23,31 +23,17 @@ class FactureController extends AbstractController
     }
 
     /**
-     * @Route("/profile/client/{id}/facture", name="facture_user")
-     * @IsGranted("ROLE_USER")
-     */
-    public function facture( Client $client, FactureRepository $repository)
-    {
-        return $this->render('facture/list.html.twig', [
-            'factures' => $repository->findByUserFacture($client),
-            'client' => $client
-        ]);
-    }
-
-    /**
      * @Route("/admin/facture/{id}", name="facture_show")
      * @IsGranted("ROLE_ADMIN")
      */
     public function show(Facture $facture)
     {
-        $location = $facture->getLocation();
-        $voiture = $location->getVoiture();
-        $property = $location->getProperty();
+        $location = $facture->getLocations();
+        $sell = $facture->getSells();
         return $this->render('admin/facture/show.html.twig', [
             'facture' => $facture,
             'location' => $location,
-            'voiture' => $voiture,
-            'property' => $property
+            'sell' => $sell
         ]);
     }
     /**

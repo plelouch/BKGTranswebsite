@@ -83,11 +83,17 @@ class Voiture
      */
     private $type;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sell", mappedBy="car")
+     */
+    private $sells;
+
     public function __construct()
     {
         $this->locations = new ArrayCollection();
         $this->infosups = new ArrayCollection();
         $this->ads = new ArrayCollection();
+        $this->sells = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -295,4 +301,36 @@ class Voiture
 
         return $this;
     }
+
+    /**
+     * @return Collection|Sell[]
+     */
+    public function getSells(): Collection
+    {
+        return $this->sells;
+    }
+
+    public function addSell(Sell $sell): self
+    {
+        if (!$this->sells->contains($sell)) {
+            $this->sells[] = $sell;
+            $sell->setCar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSell(Sell $sell): self
+    {
+        if ($this->sells->contains($sell)) {
+            $this->sells->removeElement($sell);
+            // set the owning side to null (unless already changed)
+            if ($sell->getCar() === $this) {
+                $sell->setCar(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

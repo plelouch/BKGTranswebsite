@@ -17,7 +17,13 @@
                         <h3>Desciption de la voiture </h3>
                         <p> {{ ad.description | raw }}</p>
                         <dl>
-                            <dt><strong>{{ ad.price }} fcfa</strong> par jour</dt>
+                            <dt>
+                                {% if ad.voiture.type.name == "vente" %}
+                                    <p>Le prix de vente : <strong>{{ ad.price|number_format(2, ',', ' ') }} fcfa</strong></p>
+                                {% else %}
+                                    <p>Prix de location : <strong>{{ ad.price|number_format(2, ',', ' ') }} fcfa</strong> par jour</p>
+                                {% endif %}
+                            </dt>
                             <dt>Status de la voiture :
                                 <strong>
                                     {% if ad.voiture.type.name == "vente" %}
@@ -45,7 +51,19 @@
                         {% else %}
                             {{ include('partials/_rating.html.twig' , {'rating': ad.avgRatings}) }}<br>
                         {% endif %}
-                        <a href="{{ path('booking_new', {'id': ad.id}) }}" class="button">Fair une Reservation</a>
+                        {% if ad.voiture.isDispo == true %}
+                            {% if ad.voiture.type.name == "vente" %}
+                                <a href="{{ path('booking_new', {'id': ad.id}) }}" class="button">Reservation pour vente</a>
+                            {% else %}
+                                <a href="{{ path('booking_new', {'id': ad.id}) }}" class="button">Reservation pour location</a>
+                            {% endif %}
+                        {% else %}
+                            {% if ad.voiture.type.name == "vente" %}
+                                <strong>Cette voiture ne peut-etre vendue car elle à été déjà vendue</strong>
+                            {% else %}
+                                <strong>Cette voiture ne peut-etre loué car elle à été déjà loué</strong>
+                            {% endif %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-md-6">

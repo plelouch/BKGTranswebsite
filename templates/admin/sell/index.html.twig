@@ -1,0 +1,78 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des ventes{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Liste des propriété</a>
+            </li>
+            <li class="breadcrumb-item active"></li>
+        </ol>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Ajouter une propriété
+                <a class="btn btn-info btn-sm" href="{{ path('admin_sell_new_car') }}">
+                    <i class="fa fa-plus"></i> Vendre voiture
+                </a>
+                <a class="btn btn-info btn-sm" href="{{ path('admin_sell_new_property') }}">
+                    <i class="fa fa-plus"></i> Vendre propriété
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Prix de vente</th>
+                            <th>Date de vente</th>
+                            <th>Type de vente</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for sell in sells %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ sell.price|number_format(2, ',', ' ') }} fcfa</td>
+                                <td>{{ sell.createdAt ? sell.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>
+                                    {% if sell.property is not null %}
+                                        {% set isValid = sell.property.sold %}
+                                        Propriéte
+                                    {% else %}
+                                        {% set isValid = sell.car.isDispo %}
+                                        Voiture
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" href="{{ path('admin_sell_show', {'id': sell.id}) }}">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a style="{% if sell.property is not null %}{% set isValid = sell.property.sold %}{% if isValid == true %} display:none;{% endif %}{% else %}{% set isValid = sell.car.isDispo %}{% if isValid == false %} display:none;{% endif %}{% endif %}" class="btn btn-warning btn-sm" href="{% if sell.property is not null %}{{ path('admin_sell_edit_property', {'id': sell.id}) }}{% else %}{{ path('admin_sell_edit_car', {'id': sell.id}) }}{% endif %}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a style="{% if sell.property is not null %}{% set isValid = sell.property.sold %}{% if isValid == true %} display:none;{% endif %}{% else %}{% set isValid = sell.car.isDispo %}{% if isValid == false %} display:none;{% endif %}{% endif %}" class="btn btn-success btn-sm" href="{% if sell.property is not null %}{{ path('admin_valid_sell_property', {'id': sell.id}) }}{% else %}{{ path('admin_valid_sell_car', {'id': sell.id}) }}{% endif %}">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                    {{ include('admin/sell/_delete_form.html.twig') }}
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+    </div>
+{% endblock %}

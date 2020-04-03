@@ -94,10 +94,16 @@ class Client
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sell", mappedBy="client", orphanRemoval=true)
+     */
+    private $sells;
+
     public function __construct()
     {
         $this->locations = new ArrayCollection();
         $this->factures = new ArrayCollection();
+        $this->sells = new ArrayCollection();
     }
 
     public function getFullName()
@@ -279,4 +285,36 @@ class Client
 
         return $this;
     }
+
+    /**
+     * @return Collection|Sell[]
+     */
+    public function getSells(): Collection
+    {
+        return $this->sells;
+    }
+
+    public function addSell(Sell $sell): self
+    {
+        if (!$this->sells->contains($sell)) {
+            $this->sells[] = $sell;
+            $sell->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSell(Sell $sell): self
+    {
+        if ($this->sells->contains($sell)) {
+            $this->sells->removeElement($sell);
+            // set the owning side to null (unless already changed)
+            if ($sell->getClient() === $this) {
+                $sell->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

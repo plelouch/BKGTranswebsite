@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,10 +35,20 @@ class Facture
     private $client;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Location", inversedBy="facture", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="App\Entity\Sell", mappedBy="facture", orphanRemoval=true)
      */
-    private $location;
+    private $sells;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Location", mappedBy="facture", orphanRemoval=true)
+     */
+    private $locations;
+
+    public function __construct()
+    {
+        $this->sells = new ArrayCollection();
+        $this->locations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -79,14 +91,64 @@ class Facture
         return $this;
     }
 
-    public function getLocation(): ?location
+    /**
+     * @return Collection|Sell[]
+     */
+    public function getSells(): Collection
     {
-        return $this->location;
+        return $this->sells;
     }
 
-    public function setLocation(location $location): self
+    public function addSell(Sell $sell): self
     {
-        $this->location = $location;
+        if (!$this->sells->contains($sell)) {
+            $this->sells[] = $sell;
+            $sell->setFacture($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSell(Sell $sell): self
+    {
+        if ($this->sells->contains($sell)) {
+            $this->sells->removeElement($sell);
+            // set the owning side to null (unless already changed)
+            if ($sell->getFacture() === $this) {
+                $sell->setFacture(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Location[]
+     */
+    public function getLocations(): Collection
+    {
+        return $this->locations;
+    }
+
+    public function addLocation(Location $location): self
+    {
+        if (!$this->locations->contains($location)) {
+            $this->locations[] = $location;
+            $location->setFacture($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLocation(Location $location): self
+    {
+        if ($this->locations->contains($location)) {
+            $this->locations->removeElement($location);
+            // set the owning side to null (unless already changed)
+            if ($location->getFacture() === $this) {
+                $location->setFacture(null);
+            }
+        }
 
         return $this;
     }

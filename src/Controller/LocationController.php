@@ -50,15 +50,15 @@ class LocationController extends AbstractController
             $facture->setClient($location->getClient())
                 ->setDateAt(new \DateTime())
                 ->setNumFacture(mt_rand(5000, 10000))
-                ->setLocation($location)
             ;
+            $location->setFacture($facture);
 
             $entityManager->persist($location);
             $entityManager->persist($facture);
             $entityManager->persist($voiture);
             $entityManager->flush();
 
-            return $this->redirectToRoute('location_index');
+            return $this->redirectToRoute('admin_location_index');
         }
 
         return $this->render('admin/location/new.html.twig', [
@@ -83,19 +83,19 @@ class LocationController extends AbstractController
                 ->setIsReturn(false)
             ;
             $property = $location->getProperty();
-            $property->setSold(false);
+            $property->setSold(true);
             $facture->setClient($location->getClient())
                 ->setDateAt(new \DateTime())
                 ->setNumFacture(mt_rand(5000, 10000))
-                ->setLocation($location)
             ;
+            $location->setFacture($facture);
 
             $entityManager->persist($location);
             $entityManager->persist($facture);
             $entityManager->persist($property);
             $entityManager->flush();
 
-            return $this->redirectToRoute('location_index');
+            return $this->redirectToRoute('admin_location_index');
         }
 
         return $this->render('admin/location/newProperty.html.twig', [
@@ -125,7 +125,7 @@ class LocationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('location_index');
+            return $this->redirectToRoute('admin_location_index');
         }
 
         return $this->render('admin/location/edit.html.twig', [
@@ -145,7 +145,7 @@ class LocationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('location_index');
+            return $this->redirectToRoute('admin_location_index');
         }
 
         return $this->render('admin/location/editProperty.html.twig', [
@@ -178,7 +178,7 @@ class LocationController extends AbstractController
         $location->setArriveAt(new \DateTime())
             ->setIsReturn(true);
         $property = $location->getProperty();
-        $property->setSold(true);
+        $property->setSold(false);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($location);
         $entityManager->persist($property);

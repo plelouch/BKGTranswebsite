@@ -61,10 +61,10 @@
                                     <a class="btn btn-primary btn-sm" href="{{ path('admin_location_show', {'id': location.id}) }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a style="{% if isValid == true %} display:none;{% endif %}" class="btn btn-warning btn-sm" href="{% if location.voiture is not null %}{{ path('admin_location_edit', {'id': location.id}) }}{% else %}{{ path('admin_location_property_edit', {'id': location.id}) }}{% endif %}">
+                                    <a style="{% if location.property is not null %}{% set isValid = location.property.sold %}{% if isValid == true %} display:none;{% endif %}{% else %}{% set isValid = location.voiture.isDispo %}{% if isValid == false %} display:none;{% endif %}" class="btn btn-warning btn-sm" href="{% if location.voiture is not null %}{{ path('admin_location_edit', {'id': location.id}) }}{% else %}{{ path('admin_location_property_edit', {'id': location.id}) }}{% endif %}">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a style="{% if isValid == true %} display:none;{% endif %}" class="btn btn-success btn-sm" href="{% if location.voiture is not null %}{{ path('admin_location_return_car', {'id': location.id}) }}{% else %}{{ path('admin_location_return_property', {'id': location.id}) }}{% endif %}">
+                                    <a style="{% if location.property is not null %}{% set isValid = location.property.sold %}{% if isValid == true %} display:none;{% endif %}{% else %}{% set isValid = location.voiture.isDispo %}{% if isValid == false %} display:none;{% endif %}" class="btn btn-success btn-sm" href="{% if location.voiture is not null %}{{ path('admin_location_return_car', {'id': location.id}) }}{% else %}{{ path('admin_location_return_property', {'id': location.id}) }}{% endif %}">
                                         <i class="fas fa-check"></i>
                                     </a>
                                     {{ include('admin/location/_delete_form.html.twig') }}

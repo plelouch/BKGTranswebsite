@@ -50,11 +50,6 @@ class Location
     private $voiture;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Facture", mappedBy="location", cascade={"persist", "remove"})
-     */
-    private $facture;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $isReturn;
@@ -68,6 +63,12 @@ class Location
      * @ORM\Column(type="integer", nullable=true)
      */
     private $avance;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Facture", inversedBy="locations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $facture;
 
     public function getId(): ?int
     {
@@ -146,23 +147,6 @@ class Location
         return $this;
     }
 
-    public function getFacture(): ?Facture
-    {
-        return $this->facture;
-    }
-
-    public function setFacture(Facture $facture): self
-    {
-        $this->facture = $facture;
-
-        // set the owning side of the relation if necessary
-        if ($facture->getLocation() !== $this) {
-            $facture->setLocation($this);
-        }
-
-        return $this;
-    }
-
     public function getIsReturn(): ?bool
     {
         return $this->isReturn;
@@ -195,6 +179,18 @@ class Location
     public function setAvance(?int $avance): self
     {
         $this->avance = $avance;
+
+        return $this;
+    }
+
+    public function getFacture(): ?facture
+    {
+        return $this->facture;
+    }
+
+    public function setFacture(?facture $facture): self
+    {
+        $this->facture = $facture;
 
         return $this;
     }
